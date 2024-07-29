@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Input_Module;
-using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -18,6 +17,8 @@ namespace Assets.Scripts.Player_Module
 
         void ITickable.Tick()
         {
+            if (_player.HealthComponent.IsDead) return;
+
             Vector3 moveDirection = _input.MovementDirection;
             _player.MoveTransform.position += moveDirection * (_player.Speed * Time.deltaTime);
         }

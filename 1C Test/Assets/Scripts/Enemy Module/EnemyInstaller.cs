@@ -8,6 +8,12 @@ namespace Assets.Scripts.Enemy_Module
         {
             Container.Bind<EnemyFactory>()
                 .AsSingle();
+
+            Container.BindInterfacesTo<EnemyMoveController>()
+               .AsSingle();
+
+            Container.BindInterfacesTo<EnemyInBorderObserver>()
+                .AsSingle();
         }
     }
 }

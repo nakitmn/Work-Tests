@@ -1,22 +1,33 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Border_Module;
+using Assets.Scripts.Player_Module;
+using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Scripts.Enemy_Module
 {
-    public sealed class EnemyMoveController
+    public sealed class EnemyMoveController : ITickable
     {
-        private readonly Enemy _enemy;
-        private readonly float _speed;
+        private readonly EnemyFactory _factory;
+        private readonly Player player;
 
-        public EnemyMoveController(Enemy enemy,float speed)
+        public EnemyMoveController(EnemyFactory factory, Player player)
         {
-            _enemy = enemy;
-            _speed = speed;
+            _factory = factory;
+            this.player = player;
         }
 
-        public void OnUpdate()
+        void ITickable.Tick()
         {
-            _enemy.transform.position += Vector3.down * (_speed * Time.deltaTime);
+            if (player.HealthComponent.IsDead) return;
+
+            var enemies = _factory.ActiveEnemies;
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                var enemy = enemies[i];
+                enemy.transform.position += Vector3.down * (enemy.Speed * Time.deltaTime);
+            }
         }
     }
 }
