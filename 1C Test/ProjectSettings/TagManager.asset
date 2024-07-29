@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environment
+    uniqueID: 2647357481
+    locked: 0
+  - name: Units
+    uniqueID: 2170465895
+    locked: 0
+  - name: UI
+    uniqueID: 3008606963
+    locked: 0
