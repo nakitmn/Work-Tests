@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Input_Module;
+﻿using Assets.Scripts.Border_Module;
+using Assets.Scripts.Input_Module;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts
@@ -9,6 +11,14 @@ namespace Assets.Scripts
         {
             Container.BindInterfacesTo<KeyboardPlayerInput>()
                 .AsSingle();
+
+            Container.Bind<Border>()
+                .FromComponentInHierarchy()
+                .AsSingle();
+
+            Container.Bind<Camera>()
+               .FromComponentInHierarchy()
+               .AsSingle();
         }
     }
 }

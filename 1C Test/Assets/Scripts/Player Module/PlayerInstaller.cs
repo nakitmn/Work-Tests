@@ -12,6 +12,9 @@ namespace Assets.Scripts.Player_Module
 
             Container.BindInterfacesTo<PlayerMoveController>()
                             .AsSingle();
+
+            Container.BindInterfacesTo<PlayerClampInBorderController>()
+                          .AsSingle();
         }
     }
 }

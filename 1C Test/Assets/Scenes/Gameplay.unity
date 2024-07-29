@@ -534,6 +534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1952417508}
+  - component: {fileID: 1952417509}
   m_Layer: 0
   m_Name: '[BORDER]'
   m_TagString: Untagged
@@ -557,6 +558,18 @@ Transform:
   - {fileID: 306912141}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1952417509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952417507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed60e3e714e2c3c4aaa59f992b1955cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2017031923
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +617,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveTransform: {fileID: 2017031924}
   _speed: 8
+  _size: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
