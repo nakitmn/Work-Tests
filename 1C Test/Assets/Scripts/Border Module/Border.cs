@@ -16,5 +16,25 @@ namespace Assets.Scripts.Border_Module
         {
             _camera = camera;
         }
+
+        public bool IsInBorder(Vector3 position)
+        {
+            var topLeft = TopLeft;
+            var bottomRight = BottomRight;
+
+            return (position.x >= topLeft.x && position.x <= bottomRight.x) &&
+                (position.y <= topLeft.y && position.y >= bottomRight.y);
+        }
+
+        public Vector3 Clamp(Vector3 position, float borderOffset = 0f)
+        {
+            var topLeft = TopLeft;
+            var bottomRight = BottomRight;
+
+            position.x = Mathf.Clamp(position.x, topLeft.x + borderOffset, bottomRight.x - borderOffset);
+            position.y = Mathf.Clamp(position.y, bottomRight.y + borderOffset, topLeft.y - borderOffset);
+
+            return position;
+        }
     }
 }

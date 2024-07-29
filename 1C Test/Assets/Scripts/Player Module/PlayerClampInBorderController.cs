@@ -17,14 +17,8 @@ namespace Assets.Scripts.Player_Module
 
         void ITickable.Tick()
         {
-            var topLeft = _border.TopLeft;
-            var bottomRight = _border.BottomRight;
-
-            var currentPosition = _player.MoveTransform.position;
-            currentPosition.x = Mathf.Clamp(currentPosition.x, topLeft.x + _player.HalfSize, bottomRight.x - _player.HalfSize);
-            currentPosition.y = Mathf.Clamp(currentPosition.y, bottomRight.y + _player.HalfSize, topLeft.y - _player.HalfSize);
-
-            _player.MoveTransform.position = currentPosition;
+            Vector3 currentPosition = _player.MoveTransform.position;
+            _player.MoveTransform.position = _border.Clamp(currentPosition, _player.HalfSize);
         }
     }
 }
