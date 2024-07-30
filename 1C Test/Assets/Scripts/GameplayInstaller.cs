@@ -1,5 +1,6 @@
 ﻿using Border_Module;
 using Bullet_Module;
+using Camera_Module;
 using Input_Module;
 using UnityEngine;
 using Zenject;
@@ -16,6 +17,10 @@ public sealed class GameplayInstaller : MonoInstaller
             .AsSingle();
 
         Container.Bind<Camera>()
+            .FromComponentInHierarchy()
+            .AsSingle();
+        
+        Container.Bind<CameraShaker>()
             .FromComponentInHierarchy()
             .AsSingle();
             

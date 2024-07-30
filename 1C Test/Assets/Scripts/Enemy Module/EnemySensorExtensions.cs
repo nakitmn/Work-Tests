@@ -9,6 +9,7 @@ namespace Enemy_Module
         {
             return sensor.HasTargets
                 ? sensor.DetectedEnemies
+                    .Where(it => it != null)
                     .OrderBy(it => Vector3.Distance(it.transform.position, origin))
                     .FirstOrDefault()
                 : null;

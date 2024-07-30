@@ -12,7 +12,8 @@ namespace Bullet_Module
         [SerializeField] private int _damage = 1;
         [SerializeField] private float _speed;
         [SerializeField] private EnemySensor _enemySensor;
-
+        [SerializeField] private GameObject _hitEffect;
+        
         private MoveComponent _moveComponent;
 
         private void Awake()
@@ -45,6 +46,7 @@ namespace Bullet_Module
                 enemy.TakeDamage(_damage);
             }
 
+            Instantiate(_hitEffect, transform.position, Quaternion.identity);
             Collided?.Invoke(this);
         }
     }

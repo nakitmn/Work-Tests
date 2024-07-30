@@ -6,7 +6,7 @@ namespace Enemy_Module
 {
     public sealed class EnemySpawner : MonoBehaviour
     {
-        [SerializeField] private EnemyConfig _enemyConfig;
+        [SerializeField] private EnemyConfig[] _enemyConfigs;
         [SerializeField] private Transform[] _spawnPoints;
         [SerializeField] private Vector2Int _spawnCount;
         [SerializeField] private Vector2 _spawnDelay;
@@ -31,7 +31,8 @@ namespace Enemy_Module
             for (int i = 0; i < spawnCount; i++)
             {
                 var point = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-                _factory.CreateEnemy(_enemyConfig, point.position, point.rotation);
+                var enemyConfig = _enemyConfigs[Random.Range(0, _enemyConfigs.Length)];
+                _factory.CreateEnemy(enemyConfig, point.position, point.rotation);
                 var delay = Random.Range(_spawnDelay.x, _spawnDelay.y);
                 yield return new WaitForSeconds(delay);
             }
