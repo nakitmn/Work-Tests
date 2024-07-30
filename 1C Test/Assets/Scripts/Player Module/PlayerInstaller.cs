@@ -18,6 +18,12 @@ namespace Player_Module
             Container.BindInterfacesTo<PlayerClampInBorderController>()
                           .AsSingle();
             
+            Container.BindInterfacesTo<PlayerWinController>()
+                .AsSingle();
+            
+            Container.BindInterfacesTo<PlayerLoseController>()
+                .AsSingle();
+            
             Container.Bind<HealthView>()
                 .FromComponentInHierarchy()
                 .AsSingle();

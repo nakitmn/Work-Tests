@@ -22,7 +22,6 @@ namespace Player_Module
 
         [Header("Shoot")] [SerializeField] private Transform _aimTransform;
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private FireAnimations _fireAnimations;
         [SerializeField] private float _fireRate = 1f;
 
@@ -43,7 +42,7 @@ namespace Player_Module
             _cameraShaker = cameraShaker;
             HealthComponent = new Health(_health);
             MoveComponent = new MoveComponent(_moveTransform, _speed);
-            FireComponent = new FireComponent(bulletFactory, _bulletPrefab, _firePoint, _fireRate);
+            FireComponent = new FireComponent(bulletFactory, _firePoint, _fireRate);
 
             _healthAdapter = new HealthAdapter(HealthComponent, healthView);
         }
@@ -63,7 +62,7 @@ namespace Player_Module
             if (HealthComponent.IsDead) return;
 
             _playerAnimations.SetMoving(MoveComponent.IsMoving);
-            
+
             var nearestEnemy = _enemySensor.GetNearest(_moveTransform.position);
 
             var direction = nearestEnemy == null
@@ -71,7 +70,7 @@ namespace Player_Module
                 : (nearestEnemy.transform.position +
                    (nearestEnemy.transform.up * nearestEnemy.Speed * 0.75f)) -
                   _moveTransform.position;
-            
+
             _aimTransform.up = direction.normalized;
 
             if (nearestEnemy == null) return;
@@ -86,7 +85,7 @@ namespace Player_Module
         public void TakeDamage(int damage)
         {
             HealthComponent.Substruct(damage);
-            
+
             _cameraShaker.Play();
 
             if (HealthComponent.IsDead)

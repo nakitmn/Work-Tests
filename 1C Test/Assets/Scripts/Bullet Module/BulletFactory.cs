@@ -5,18 +5,19 @@ namespace Bullet_Module
 {
     public sealed class BulletFactory
     {
-        private readonly DiContainer _diContainer;
+        private readonly BulletPool _bulletPool;
 
-        public BulletFactory(DiContainer diContainer)
+        public BulletFactory(BulletPool bulletPool)
         {
-            _diContainer = diContainer;
+            _bulletPool = bulletPool;
         }
 
-        public Bullet CreateBullet(Bullet prefab, Vector3 position, Quaternion rotation)
+        public Bullet CreateBullet(Vector3 position, Quaternion rotation)
         {
-            var bullet = _diContainer.InstantiatePrefab(prefab, position, rotation, null)
-                .GetComponent<Bullet>();
-
+            var bullet = _bulletPool.Spawn();
+            bullet.transform.position = position;
+            bullet.transform.rotation = rotation;
+            
             bullet.Collided += OnBulletCollided;
             return bullet;
         }
@@ -24,7 +25,7 @@ namespace Bullet_Module
         private void OnBulletCollided(Bullet bullet)
         {
             bullet.Collided -= OnBulletCollided;
-            Object.Destroy(bullet.gameObject);
+            _bulletPool.Despawn(bullet);
         }
     }
 }

@@ -9,6 +9,10 @@ namespace Enemy_Module
         {
             Container.Bind<EnemyFactory>()
                 .AsSingle();
+            
+            Container.Bind<EnemySpawner>()
+                .FromComponentInHierarchy()
+                .AsSingle();
 
             Container.BindInterfacesTo<EnemyInBorderObserver>()
                 .AsSingle();

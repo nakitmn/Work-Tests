@@ -1,11 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Enemy_Module
 {
     public sealed class EnemySpawner : MonoBehaviour
     {
+        public event Action AllSpawned;
+        
         [SerializeField] private EnemyConfig[] _enemyConfigs;
         [SerializeField] private Transform[] _spawnPoints;
         [SerializeField] private Vector2Int _spawnCount;
@@ -36,6 +40,8 @@ namespace Enemy_Module
                 var delay = Random.Range(_spawnDelay.x, _spawnDelay.y);
                 yield return new WaitForSeconds(delay);
             }
+            
+            AllSpawned?.Invoke();
         }
     }
 }
