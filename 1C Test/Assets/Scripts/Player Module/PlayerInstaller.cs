@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using Assets.Scripts.UI_Module;
+using Zenject;
 
 namespace Assets.Scripts.Player_Module
 {
@@ -15,6 +16,10 @@ namespace Assets.Scripts.Player_Module
 
             Container.BindInterfacesTo<PlayerClampInBorderController>()
                           .AsSingle();
+            
+            Container.Bind<HealthView>()
+                .FromComponentInHierarchy()
+                .AsSingle();
         }
     }
 }

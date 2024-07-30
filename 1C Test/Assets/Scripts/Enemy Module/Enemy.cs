@@ -1,29 +1,39 @@
-﻿using Assets.Scripts.Border_Module;
+﻿using System;
 using Assets.Scripts.Core;
-using Assets.Scripts.Player_Module;
 using UnityEngine;
-using Zenject;
 
 namespace Assets.Scripts.Enemy_Module
 {
     public sealed class Enemy : MonoBehaviour
     {
-        public Health Health { get; private set; }
-        public float Speed { get; private set; }
-        /*        private Border _border;
-                private Player _player;
+        public event Action<Enemy> Died; 
 
-                [Inject]
-                public void Construct(Border border, Player player)
-                {
-                    _border = border;
-                    _player = player;
-                }
-        */
-        public void Compose(float speed, int health)
+        public Health Health { get; private set; }
+        public MoveComponent MoveComponent { get; private set; }
+        public float Speed { get; private set; }
+
+        public void Construct(float speed, int health)
         {
-            Health = new Health(health);
             Speed = speed;
+            Health = new Health(health);
+            MoveComponent = new MoveComponent(transform, Vector3.down, Speed);
+        }
+
+        private void Update()
+        {
+            if (Health.IsDead) return;
+            
+            MoveComponent.OnUpdate();
+        }
+
+        public void TakeDamage(int damage)
+        {
+            Health.Substruct(damage);
+            
+            if (Health.IsDead)
+            {
+                Died?.Invoke(this);
+            }
         }
     }
 }

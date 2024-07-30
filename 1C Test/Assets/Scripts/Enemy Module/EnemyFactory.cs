@@ -6,23 +6,17 @@ namespace Assets.Scripts.Enemy_Module
 {
     public sealed class EnemyFactory
     {
-        private readonly DiContainer _diContainer;
         private readonly List<Enemy> _activeEnemies = new();
 
         public IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
-        public EnemyFactory(DiContainer diContainer)
-        {
-            _diContainer = diContainer;
-        }
-
         public Enemy CreateEnemy(EnemyConfig config, Vector3 position, Quaternion rotation)
         {
-            var enemy = Object.Instantiate(config.Prefab, position, rotation);
-            _diContainer.Inject(enemy);
-
             var speed = Random.Range(config.SpeedRange.x, config.SpeedRange.y);
-            enemy.Compose(speed, config.Health);
+            var enemy = Object.Instantiate(config.Prefab, position, rotation);
+
+            enemy.Construct(speed, config.Health);
+            enemy.Died += Destroy;
 
             _activeEnemies.Add(enemy);
             return enemy;
@@ -30,6 +24,7 @@ namespace Assets.Scripts.Enemy_Module
 
         public void Destroy(Enemy enemy)
         {
+            enemy.Died -= Destroy;
             _activeEnemies.Remove(enemy);
             Object.Destroy(enemy.gameObject);
         }

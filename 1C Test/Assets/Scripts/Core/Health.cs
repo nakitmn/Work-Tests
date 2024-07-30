@@ -6,6 +6,7 @@ namespace Assets.Scripts.Core
     public sealed class Health
     {
         public event Action Died;
+        public event Action HealthChanged;
 
         public int Max { get; }
         public int Current { get; private set; }
@@ -22,6 +23,8 @@ namespace Assets.Scripts.Core
 
             Current = Mathf.Max(Current - value, 0);
 
+            HealthChanged?.Invoke();
+            
             if (IsDead)
             {
                 Died?.Invoke();

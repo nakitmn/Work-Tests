@@ -17,10 +17,7 @@ namespace Assets.Scripts.Player_Module
 
         void ITickable.Tick()
         {
-            if (_player.HealthComponent.IsDead) return;
-
-            Vector3 moveDirection = _input.MovementDirection;
-            _player.MoveTransform.position += moveDirection * (_player.Speed * Time.deltaTime);
+            _player.MoveComponent.MoveDirection = _input.MovementDirection;
         }
     }
 }
