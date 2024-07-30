@@ -1,9 +1,9 @@
 ﻿using System;
-using Assets.Scripts.Core;
+using Core;
 using Enemy_Module;
 using UnityEngine;
 
-namespace Assets.Scripts.Bullet_Module
+namespace Bullet_Module
 {
     public sealed class Bullet : MonoBehaviour
     {

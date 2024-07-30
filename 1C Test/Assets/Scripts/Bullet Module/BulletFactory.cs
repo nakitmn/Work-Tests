@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Bullet_Module
+namespace Bullet_Module
 {
     public sealed class BulletFactory
     {

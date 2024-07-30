@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Enemy_Module
+namespace Enemy_Module
 {
     public sealed class EnemySpawner : MonoBehaviour
     {

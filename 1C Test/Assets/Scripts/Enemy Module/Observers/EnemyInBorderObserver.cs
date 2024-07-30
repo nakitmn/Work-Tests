@@ -1,34 +1,34 @@
-﻿using Assets.Scripts.Border_Module;
-using Assets.Scripts.Player_Module;
+﻿using Border_Module;
+using Player_Module;
 using Zenject;
 
-namespace Assets.Scripts.Enemy_Module
+namespace Enemy_Module.Observers
 {
     public sealed class EnemyInBorderObserver : ITickable
     {
-        private readonly EnemyFactory factory;
-        private readonly Border border;
-        private readonly Player player;
+        private readonly EnemyFactory _factory;
+        private readonly Border _border;
+        private readonly Player _player;
 
         public EnemyInBorderObserver(EnemyFactory factory, Border border, Player player)
         {
-            this.factory = factory;
-            this.border = border;
-            this.player = player;
+            _factory = factory;
+            _border = border;
+            _player = player;
         }
 
         void ITickable.Tick()
         {
-            var enemies = factory.ActiveEnemies;
+            var enemies = _factory.ActiveEnemies;
 
             for (int i = 0; i < enemies.Count; i++)
             {
                 var enemy = enemies[i];
 
-                if (border.IsInBorder(enemy.transform.position))
+                if (_border.IsInBorder(enemy.transform.position))
                 {
-                    player.TakeDamage(1);
-                    factory.Destroy(enemy);
+                    _player.TakeDamage(enemy.Damage);
+                    _factory.Destroy(enemy);
                 }
             }
         }

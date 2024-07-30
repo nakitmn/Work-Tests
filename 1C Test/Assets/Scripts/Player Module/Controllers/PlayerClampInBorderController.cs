@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Border_Module;
+﻿using Border_Module;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Player_Module
+namespace Player_Module.Controllers
 {
     public sealed class PlayerClampInBorderController : ITickable
     {

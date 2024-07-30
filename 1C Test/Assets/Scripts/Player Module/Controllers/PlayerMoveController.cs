@@ -1,8 +1,7 @@
-﻿using Assets.Scripts.Input_Module;
-using UnityEngine;
+﻿using Input_Module;
 using Zenject;
 
-namespace Assets.Scripts.Player_Module
+namespace Player_Module.Controllers
 {
     public sealed class PlayerMoveController : ITickable
     {
@@ -17,7 +16,10 @@ namespace Assets.Scripts.Player_Module
 
         void ITickable.Tick()
         {
+            if (_player.HealthComponent.IsDead) return;
+            
             _player.MoveComponent.MoveDirection = _input.MovementDirection;
+            _player.MoveComponent.OnUpdate();
         }
     }
 }

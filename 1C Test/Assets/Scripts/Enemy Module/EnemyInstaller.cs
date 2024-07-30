@@ -1,6 +1,7 @@
-﻿using Zenject;
+﻿using Enemy_Module.Observers;
+using Zenject;
 
-namespace Assets.Scripts.Enemy_Module
+namespace Enemy_Module
 {
     public sealed class EnemyInstaller : MonoInstaller
     {

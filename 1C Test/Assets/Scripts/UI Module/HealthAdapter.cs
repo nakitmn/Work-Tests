@@ -1,7 +1,7 @@
 ﻿using System;
-using Assets.Scripts.Core;
+using Core;
 
-namespace Assets.Scripts.UI_Module
+namespace UI_Module
 {
     public sealed class HealthAdapter : IDisposable
     {

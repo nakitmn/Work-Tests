@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Camera_Module
+namespace Camera_Module
 {
     public static class CameraExtensions
     {

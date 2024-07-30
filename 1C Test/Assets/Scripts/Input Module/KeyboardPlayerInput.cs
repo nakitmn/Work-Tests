@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Input_Module
+namespace Input_Module
 {
     public sealed class KeyboardPlayerInput : IPlayerInput
     {

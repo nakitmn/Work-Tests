@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Enemy_Module;
 using UnityEngine;
 
 namespace Enemy_Module
@@ -10,7 +9,9 @@ namespace Enemy_Module
         public event Action StateChanged;
         
         private readonly List<Enemy> _detectedEnemies = new();
+
         public IReadOnlyList<Enemy> DetectedEnemies => _detectedEnemies;
+        public bool HasTargets => _detectedEnemies.Count > 0;
 
         private void OnDisable()
         {

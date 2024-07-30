@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.UI_Module;
+﻿using Player_Module.Controllers;
+using UI_Module;
 using Zenject;
 
-namespace Assets.Scripts.Player_Module
+namespace Player_Module
 {
     public sealed class PlayerInstaller : MonoInstaller
     {

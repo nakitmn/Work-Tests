@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Camera_Module;
+﻿using Camera_Module;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.Border_Module
+namespace Border_Module
 {
     public sealed class Border : MonoBehaviour
     {

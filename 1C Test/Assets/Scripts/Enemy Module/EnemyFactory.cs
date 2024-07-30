@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
-namespace Assets.Scripts.Enemy_Module
+namespace Enemy_Module
 {
     public sealed class EnemyFactory
     {
@@ -15,7 +14,7 @@ namespace Assets.Scripts.Enemy_Module
             var speed = Random.Range(config.SpeedRange.x, config.SpeedRange.y);
             var enemy = Object.Instantiate(config.Prefab, position, rotation);
 
-            enemy.Construct(speed, config.Health);
+            enemy.Construct(speed, config.Health,config.Damage);
             enemy.Died += Destroy;
 
             _activeEnemies.Add(enemy);
