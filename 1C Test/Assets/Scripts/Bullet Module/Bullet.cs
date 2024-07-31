@@ -2,6 +2,7 @@
 using Bullet_Module.Effects;
 using Core;
 using Enemy_Module;
+using Enemy_Module.Extensions;
 using UnityEngine;
 using Zenject;
 

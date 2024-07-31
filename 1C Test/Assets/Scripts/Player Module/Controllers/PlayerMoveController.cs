@@ -1,4 +1,5 @@
 ﻿using Input_Module;
+using UnityEngine;
 using Zenject;
 
 namespace Player_Module.Controllers
@@ -16,9 +17,10 @@ namespace Player_Module.Controllers
 
         void ITickable.Tick()
         {
-            if (_player.HealthComponent.IsDead) return;
-            
-            _player.MoveComponent.MoveDirection = _input.MovementDirection;
+            _player.MoveComponent.MoveDirection = _player.HealthComponent.IsDead
+                ? Vector3.zero
+                : _input.MovementDirection;
+
             _player.MoveComponent.OnUpdate();
         }
     }

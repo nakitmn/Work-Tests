@@ -14,6 +14,7 @@ namespace Enemy_Module
         [SerializeField] private Transform[] _spawnPoints;
         [SerializeField] private Vector2Int _spawnCount;
         [SerializeField] private Vector2 _spawnDelay;
+        [SerializeField] private Transform _enemiesContainer;
 
         private EnemyFactory _factory;
 
@@ -36,7 +37,7 @@ namespace Enemy_Module
             {
                 var point = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
                 var enemyConfig = _enemyConfigs[Random.Range(0, _enemyConfigs.Length)];
-                _factory.CreateEnemy(enemyConfig, point.position, point.rotation);
+                _factory.CreateEnemy(enemyConfig, point.position, point.rotation,_enemiesContainer);
                 var delay = Random.Range(_spawnDelay.x, _spawnDelay.y);
                 yield return new WaitForSeconds(delay);
             }

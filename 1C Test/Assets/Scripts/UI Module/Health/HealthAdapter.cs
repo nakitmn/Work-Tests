@@ -1,14 +1,13 @@
 ﻿using System;
-using Core;
 
-namespace UI_Module
+namespace UI_Module.Health
 {
     public sealed class HealthAdapter : IDisposable
     {
-        private readonly Health _health;
+        private readonly Core.Health _health;
         private readonly HealthView _view;
 
-        public HealthAdapter(Health health, HealthView view)
+        public HealthAdapter(Core.Health health, HealthView view)
         {
             _health = health;
             _view = view;

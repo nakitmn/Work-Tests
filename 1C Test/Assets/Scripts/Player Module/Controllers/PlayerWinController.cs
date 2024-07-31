@@ -1,19 +1,22 @@
 ﻿using System;
 using Enemy_Module;
 using UI_Module;
+using UI_Module.Level_End;
 using Zenject;
 
 namespace Player_Module.Controllers
 {
     public sealed class PlayerWinController : IInitializable, IDisposable
     {
+        private readonly Player _player;
         private readonly EnemySpawner _enemySpawner;
         private readonly EnemyFactory _enemyFactory;
         private readonly WinScreenShower _winScreenShower;
 
-        public PlayerWinController(EnemySpawner enemySpawner, 
+        public PlayerWinController(Player player,EnemySpawner enemySpawner, 
             EnemyFactory enemyFactory, WinScreenShower winScreenShower)
         {
+            _player = player;
             _enemySpawner = enemySpawner;
             _enemyFactory = enemyFactory;
             _winScreenShower = winScreenShower;
@@ -50,7 +53,7 @@ namespace Player_Module.Controllers
         {
             enemy.Died -= OnEnemyDied;
             
-            if (_enemyFactory.ActiveEnemies.Count == 0)
+            if (_enemyFactory.ActiveEnemies.Count == 0 && _player.HealthComponent.IsDead == false)
             {
                 _winScreenShower.Show();
             }

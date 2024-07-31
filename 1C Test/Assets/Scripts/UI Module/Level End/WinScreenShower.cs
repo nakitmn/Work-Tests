@@ -1,7 +1,7 @@
 ﻿using System;
 using Core;
 
-namespace UI_Module
+namespace UI_Module.Level_End
 {
     public sealed class WinScreenShower : IDisposable
     {

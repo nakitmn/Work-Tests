@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UI_Module
+namespace UI_Module.Level_End
 {
     public sealed class LevelEndScreen : MonoBehaviour
     {

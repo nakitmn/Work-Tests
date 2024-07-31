@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace Enemy_Module
+namespace Enemy_Module.Extensions
 {
     public static class EnemySensorExtensions
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using UI_Module;
+using UI_Module.Level_End;
 using Zenject;
 
 namespace Player_Module.Controllers
@@ -27,6 +28,7 @@ namespace Player_Module.Controllers
 
         private void OnDied(Player player)
         {
+            _player.Died -= OnDied;
             _loseScreenShower.Show();
         }
     }

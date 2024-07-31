@@ -4,6 +4,7 @@ using Bullet_Module.Effects;
 using Camera_Module;
 using Input_Module;
 using UI_Module;
+using UI_Module.Level_End;
 using UnityEngine;
 using Zenject;
 

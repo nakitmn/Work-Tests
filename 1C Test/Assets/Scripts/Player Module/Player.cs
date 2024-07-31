@@ -1,9 +1,10 @@
 ﻿using System;
 using Bullet_Module;
-using Camera_Module;
 using Core;
 using Enemy_Module;
+using Enemy_Module.Extensions;
 using UI_Module;
+using UI_Module.Health;
 using UnityEngine;
 using Zenject;
 
@@ -23,24 +24,20 @@ namespace Player_Module
 
         [Header("Shoot")] [SerializeField] private Transform _aimTransform;
         [SerializeField] private Transform _firePoint;
-        [SerializeField] private FireAnimations _fireAnimations;
         [SerializeField] private float _fireRate = 1f;
 
         private HealthAdapter _healthAdapter;
-        private CameraShaker _cameraShaker;
 
         public Health HealthComponent { get; private set; }
         public MoveComponent MoveComponent { get; private set; }
         public FireComponent FireComponent { get; private set; }
         public Transform MoveTransform => _moveTransform;
-
         public float Size => _size;
         public float HalfSize => _size / 2f;
 
         [Inject]
-        public void Construct(HealthView healthView, BulletFactory bulletFactory, CameraShaker cameraShaker)
+        public void Construct(HealthView healthView, BulletFactory bulletFactory)
         {
-            _cameraShaker = cameraShaker;
             HealthComponent = new Health(_health);
             MoveComponent = new MoveComponent(_moveTransform, _speed);
             FireComponent = new FireComponent(bulletFactory, _firePoint, _fireRate);
@@ -77,16 +74,14 @@ namespace Player_Module
             if (FireComponent.TryFire(out _))
             {
                 _playerAnimations.PlayShot();
-                _fireAnimations.PlayFire();
             }
         }
 
         public void TakeDamage(int damage)
         {
             HealthComponent.Substruct(damage);
-
-            _cameraShaker.Play();
-
+            Damaged?.Invoke(this);
+            
             if (HealthComponent.IsDead)
             {
                 Died?.Invoke(this);

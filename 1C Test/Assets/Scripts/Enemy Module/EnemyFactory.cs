@@ -9,12 +9,12 @@ namespace Enemy_Module
 
         public IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
-        public Enemy CreateEnemy(EnemyConfig config, Vector3 position, Quaternion rotation)
+        public Enemy CreateEnemy(EnemyConfig config, Vector3 position, Quaternion rotation, Transform parent = null)
         {
             var speed = Random.Range(config.SpeedRange.x, config.SpeedRange.y);
-            var enemy = Object.Instantiate(config.Prefab, position, rotation);
+            var enemy = Object.Instantiate(config.Prefab, position, rotation, parent);
 
-            enemy.Construct(speed, config.Health,config.Damage);
+            enemy.Construct(speed, config.Health, config.Damage);
             enemy.Died += Destroy;
 
             _activeEnemies.Add(enemy);

@@ -1,5 +1,7 @@
 ﻿using Player_Module.Controllers;
+using Player_Module.Observers;
 using UI_Module;
+using UI_Module.Health;
 using Zenject;
 
 namespace Player_Module
@@ -17,6 +19,9 @@ namespace Player_Module
 
             Container.BindInterfacesTo<PlayerClampInBorderController>()
                           .AsSingle();
+            
+            Container.BindInterfacesTo<PlayerDamagedObserver>()
+                .AsSingle();
             
             Container.BindInterfacesTo<PlayerWinController>()
                 .AsSingle();

@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace UI_Module
+namespace UI_Module.Health
 {
     public sealed class HealthView : MonoBehaviour
     {
