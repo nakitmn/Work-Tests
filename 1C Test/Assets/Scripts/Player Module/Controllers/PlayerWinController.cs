@@ -9,14 +9,14 @@ namespace Player_Module.Controllers
     {
         private readonly EnemySpawner _enemySpawner;
         private readonly EnemyFactory _enemyFactory;
-        private readonly LevelEndScreen _levelEndScreen;
+        private readonly WinScreenShower _winScreenShower;
 
         public PlayerWinController(EnemySpawner enemySpawner, 
-            EnemyFactory enemyFactory, LevelEndScreen levelEndScreen)
+            EnemyFactory enemyFactory, WinScreenShower winScreenShower)
         {
             _enemySpawner = enemySpawner;
             _enemyFactory = enemyFactory;
-            _levelEndScreen = levelEndScreen;
+            _winScreenShower = winScreenShower;
         }
 
         void IInitializable.Initialize()
@@ -52,8 +52,7 @@ namespace Player_Module.Controllers
             
             if (_enemyFactory.ActiveEnemies.Count == 0)
             {
-                _levelEndScreen.Show();
-                _levelEndScreen.SetTitle("You Win!");
+                _winScreenShower.Show();
             }
         }
     }

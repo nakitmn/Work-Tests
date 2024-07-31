@@ -11,6 +11,7 @@ namespace Player_Module
 {
     public sealed class Player : MonoBehaviour
     {
+        public event Action<Player> Damaged;
         public event Action<Player> Died;
 
         [SerializeField] private PlayerAnimations _playerAnimations;
@@ -67,9 +68,7 @@ namespace Player_Module
 
             var direction = nearestEnemy == null
                 ? Vector3.up
-                : (nearestEnemy.transform.position +
-                   (nearestEnemy.transform.up * nearestEnemy.Speed * 0.75f)) -
-                  _moveTransform.position;
+                : nearestEnemy.transform.position - _moveTransform.position;
 
             _aimTransform.up = direction.normalized;
 

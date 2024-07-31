@@ -47,5 +47,11 @@ public sealed class GameplayInstaller : MonoInstaller
         Container.Bind<LevelEndScreen>()
             .FromComponentInHierarchy()
             .AsSingle();
+        
+        Container.BindInterfacesAndSelfTo<WinScreenShower>()
+            .AsSingle();
+        
+        Container.BindInterfacesAndSelfTo<LoseScreenShower>()
+            .AsSingle();
     }
 }

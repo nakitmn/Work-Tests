@@ -7,12 +7,12 @@ namespace Player_Module.Controllers
     public sealed class PlayerLoseController : IInitializable, IDisposable
     {
         private readonly Player _player;
-        private readonly LevelEndScreen _levelEndScreen;
+        private readonly LoseScreenShower _loseScreenShower;
 
-        public PlayerLoseController(Player player, LevelEndScreen levelEndScreen)
+        public PlayerLoseController(Player player, LoseScreenShower loseScreenShower)
         {
             _player = player;
-            _levelEndScreen = levelEndScreen;
+            _loseScreenShower = loseScreenShower;
         }
 
         void IInitializable.Initialize()
@@ -27,8 +27,7 @@ namespace Player_Module.Controllers
 
         private void OnDied(Player player)
         {
-            _levelEndScreen.Show();
-            _levelEndScreen.SetTitle("You Lose!");
+            _loseScreenShower.Show();
         }
     }
 }

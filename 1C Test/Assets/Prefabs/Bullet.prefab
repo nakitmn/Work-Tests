@@ -50,7 +50,6 @@ MonoBehaviour:
   _damage: 1
   _speed: 10
   _enemySensor: {fileID: 807750492332731719}
-  _hitEffect: {fileID: 2713308507000473298, guid: 73da103b66f243d44936fab203b9ad82, type: 3}
 --- !u!1 &6626297699472340823
 GameObject:
   m_ObjectHideFlags: 0
