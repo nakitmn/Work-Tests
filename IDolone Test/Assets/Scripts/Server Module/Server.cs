@@ -1,4 +1,5 @@
-﻿using UnityEngine.Networking;
+﻿using System.Text;
+using UnityEngine.Networking;
 
 namespace Server_Module
 {
@@ -13,7 +14,11 @@ namespace Server_Module
 
         public UnityWebRequest Post(string bodyJson)
         {
-            return UnityWebRequest.Post(_url, bodyJson, "application/json");
+            var request = UnityWebRequest.Post(_url, "POST");
+            request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(bodyJson));
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            return request;
         }
     }
 }
