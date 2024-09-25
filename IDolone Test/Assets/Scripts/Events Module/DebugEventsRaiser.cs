@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Events_Module
 {
     public sealed class DebugEventsRaiser : MonoBehaviour
     {

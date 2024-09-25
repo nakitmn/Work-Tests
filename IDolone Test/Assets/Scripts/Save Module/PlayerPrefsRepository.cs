@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts
+namespace Save_Module
 {
     public sealed class PlayerPrefsRepository : ISaveRepository
     {

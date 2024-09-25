@@ -1,7 +1,6 @@
-﻿using System.Text;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
-namespace Assets.Scripts
+namespace Server_Module
 {
     public sealed class Server
     {
@@ -9,7 +8,7 @@ namespace Assets.Scripts
 
         public Server(string url)
         {
-            _url = url; 
+            _url = url;
         }
 
         public UnityWebRequest Post(string bodyJson)

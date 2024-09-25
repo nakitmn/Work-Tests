@@ -1,119 +1,123 @@
-using Assets.Scripts;
 using Newtonsoft.Json;
+using Save_Module;
+using Server_Module;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public sealed class EventService : MonoBehaviour
+namespace Events_Module
 {
-    private const string CACHED_EVENTS_KEY = "cached_events";
-
-    [SerializeField] private string _serverUrl;
-    [SerializeField] private float _cooldownBeforeSend;
-
-    private Queue<ServerEvent> _events;
-    private Server _server;
-    private ISaveRepository _repository;
-    private Coroutine _sendEventsCoroutine;
-
-    private void Awake()
+    public sealed class EventService : MonoBehaviour
     {
-        _server = new(_serverUrl);
-        _repository = new PlayerPrefsRepository();
-    }
+        private const string CACHED_EVENTS_KEY = "cached_events";
 
-    private void Start()
-    {
-        LoadCachedEvents();
-        SendEvents();
-    }
+        [SerializeField] private string _serverUrl;
+        [SerializeField] private float _cooldownBeforeSend;
 
-    public void TrackEvent(string type, string data)
-    {
-        ServerEvent serverEvent = new(type, data);
-        _events.Enqueue(serverEvent);
-        CacheEvents();
+        private Queue<ServerEvent> _events;
+        private Coroutine _sendEventsAfterCooldownCoroutine;
+        private Coroutine _uploadEventsCoroutine;
+        private Server _server;
+        private ISaveRepository _repository;
 
-        Debug.Log($"Event <color=yellow>{type}</color>:[{data}]");
-
-        if (_sendEventsCoroutine == null)
+        private void Awake()
         {
-            _sendEventsCoroutine = StartCoroutine(SendEventsRoutine());
-        }
-    }
-
-    public void SendEvents()
-    {
-        if (_events.Count == 0)
-        {
-            return;
+            _server = new(_serverUrl);
+            _repository = new PlayerPrefsRepository();
         }
 
-        StartCoroutine(UploadEventsRoutine());
-    }
-
-    private void LoadCachedEvents()
-    {
-        if (_repository.Has(CACHED_EVENTS_KEY) == false)
+        private void Start()
         {
-            _events = new();
-            return;
+            LoadCachedEvents();
+            SendEvents();
         }
 
-        string eventsJson = _repository.Get(CACHED_EVENTS_KEY);
-        _events = JsonConvert.DeserializeObject<Queue<ServerEvent>>(eventsJson);
-    }
-
-    private void CacheEvents()
-    {
-        if (_events.Count == 0)
+        public void TrackEvent(string type, string data)
         {
-            _repository.Del(CACHED_EVENTS_KEY);
-            return;
-        }
+            Debug.Log($"Event <color=yellow>{type}</color>:[{data}]");
 
-        _repository.Set(CACHED_EVENTS_KEY, GetEventsAsJson());
-    }
+            ServerEvent serverEvent = new(type, data);
+            _events.Enqueue(serverEvent);
 
-    private string GetEventsAsJson()
-    {
-        return JsonConvert.SerializeObject(_events, Formatting.Indented);
-    }
+            CacheEvents();
 
-    private IEnumerator UploadEventsRoutine()
-    {
-        string eventsJson = GetEventsAsJson();
-        int eventsCount = _events.Count;
-
-        Debug.Log("Sending events...");
-
-        using (UnityWebRequest request = _server.Post(eventsJson))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.result != UnityWebRequest.Result.Success)
+            if (_sendEventsAfterCooldownCoroutine == null)
             {
-                Debug.LogError(request.error);
+                _sendEventsAfterCooldownCoroutine = StartCoroutine(SendEventsAfterCooldownRoutine());
             }
-            else
-            {
-                Debug.Log($"<color=green>Events delivered:</color>\n{eventsJson}");
+        }
 
-                for (int i = 0; i < eventsCount; i++)
+        private void SendEvents()
+        {
+            if (_events.Count == 0 || _uploadEventsCoroutine != null)
+            {
+                return;
+            }
+
+            _uploadEventsCoroutine = StartCoroutine(UploadEventsRoutine());
+        }
+
+        private void LoadCachedEvents()
+        {
+            if (_repository.Has(CACHED_EVENTS_KEY) == false)
+            {
+                _events = new();
+                return;
+            }
+
+            string eventsJson = _repository.Get(CACHED_EVENTS_KEY);
+            _events = JsonConvert.DeserializeObject<Queue<ServerEvent>>(eventsJson);
+        }
+
+        private void CacheEvents()
+        {
+            if (_events.Count == 0)
+            {
+                _repository.Del(CACHED_EVENTS_KEY);
+                return;
+            }
+
+            string eventsJson = JsonConvert.SerializeObject(_events, Formatting.Indented);
+            _repository.Set(CACHED_EVENTS_KEY, eventsJson);
+        }
+
+        private IEnumerator UploadEventsRoutine()
+        {
+            string eventsJson = _repository.Get(CACHED_EVENTS_KEY);
+            int eventsCount = _events.Count;
+
+            Debug.Log("Sending events...");
+
+            using (UnityWebRequest request = _server.Post(eventsJson))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
                 {
-                    _events.Dequeue();
+                    Debug.LogError(request.error);
                 }
+                else
+                {
+                    Debug.Log($"<color=green>Events delivered:</color>\n{eventsJson}");
 
-                CacheEvents();
+                    for (int i = 0; i < eventsCount; i++)
+                    {
+                        _events.Dequeue();
+                    }
+
+                    CacheEvents();
+                }
             }
-        }
-    }
 
-    private IEnumerator SendEventsRoutine()
-    {
-        yield return new WaitForSeconds(_cooldownBeforeSend);
-        SendEvents();
-        _sendEventsCoroutine = null;
+            _uploadEventsCoroutine = null;
+        }
+
+        private IEnumerator SendEventsAfterCooldownRoutine()
+        {
+            yield return new WaitForSeconds(_cooldownBeforeSend);
+            SendEvents();
+            _sendEventsAfterCooldownCoroutine = null;
+        }
     }
 }

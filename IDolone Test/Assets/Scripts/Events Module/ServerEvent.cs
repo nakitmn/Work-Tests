@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts
+namespace Events_Module
 {
     [Serializable]
     public readonly struct ServerEvent
