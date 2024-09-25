@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public sealed class EventService : MonoBehaviour
 {
@@ -12,10 +13,12 @@ public sealed class EventService : MonoBehaviour
     [SerializeField] private float _cooldownBeforeSend;
 
     private Queue<ServerEvent> _events = new();
+    private Server _server;
     private Coroutine _sendEventsCoroutine;
 
     private void Start()
     {
+        _server = new(_serverUrl);
         SendCachedEvents();
     }
 
@@ -41,9 +44,27 @@ public sealed class EventService : MonoBehaviour
             return;
         }
 
-        string json = GetEventsAsJson();
-        Debug.Log(json);
-        _events.Clear();
+        StartCoroutine(Upload());
+    }
+
+    private IEnumerator Upload()
+    {
+        string eventsJson = GetEventsAsJson();
+        Debug.Log("Sending events...");
+
+        using (UnityWebRequest request = _server.Post(eventsJson))
+        {
+            yield return request.SendWebRequest();
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError(request.error);
+            }
+            else
+            {
+                Debug.Log($"Events delivered:\n{eventsJson}");
+                _events.Clear();
+            }
+        }
     }
 
     private void SendCachedEvents()
@@ -56,7 +77,7 @@ public sealed class EventService : MonoBehaviour
             SendEvents();
         }
     }
-    
+
     private IEnumerator SendEventsRoutine()
     {
         yield return new WaitForSeconds(_cooldownBeforeSend);
